@@ -42,7 +42,7 @@ def test_choices_validator():
 
 def test_choices_enum_validator():
     from enum import Enum
-    
+
     class Currency(Enum):
         USD = "USD"
         EUR = "EUR"
@@ -74,7 +74,7 @@ def test_type_validator():
         return "Success"
 
     assert test_func(x=1) == "Success"
-    
+
     with pytest.raises(GuardValidationError):
         test_func("string")
 
@@ -113,9 +113,7 @@ def test_schema_validator():
     def test_func(x):
         return "Success"
 
-    assert test_func(
-        x={"x": "test", "y": 1}
-    ) == "Success"
+    assert test_func(x={"x": "test", "y": 1}) == "Success"
 
     with pytest.raises(GuardValidationError):
         test_func(x={"x": "test", "y": "1"})
@@ -147,9 +145,9 @@ def test_regex_validator():
     @guard(code={"regex": r"^\d{3}-\d{3}$"})
     def validate_code(code: str):
         return "Success"
-    
+
     assert validate_code("123-456") == "Success"
-    
+
     with pytest.raises(GuardValidationError):
         validate_code("abc-def")
 
@@ -174,5 +172,3 @@ def test_url_validator():
 
     with pytest.raises(GuardValidationError):
         fetch_url("test")
-
-

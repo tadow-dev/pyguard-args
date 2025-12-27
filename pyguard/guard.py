@@ -19,12 +19,11 @@ class Guard:
                 cls.__registered_validators__ = {}
 
             if keyword in cls.__registered_validators__:
-                raise GuardConfigurationException(
-                    f"{keyword} is already registered"
-                )
+                raise GuardConfigurationException(f"{keyword} is already registered")
 
             cls.__registered_validators__[keyword] = validator
             return validator
+
         return decorator
 
     @classmethod
@@ -49,11 +48,7 @@ class Guard:
             if validator_class is None:
                 continue
 
-            validator = validator_class(
-                name=argument,
-                expected=expected,
-                bound=bound
-            )
+            validator = validator_class(name=argument, expected=expected, bound=bound)
 
             if error := validator.validate(value=value):
                 errors.append(error)
@@ -61,13 +56,8 @@ class Guard:
 
     @classmethod
     def validate_arguments(
-        cls,
-        function_name: str,
-        bound: BoundArguments,
-        hints: dict[str, Any],
-        guard_config: dict[str, Any]
+        cls, function_name: str, bound: BoundArguments, hints: dict[str, Any], guard_config: dict[str, Any]
     ) -> None:
-
         validation_errors = defaultdict(list)
 
         for argument, value in bound.arguments.items():
@@ -81,19 +71,11 @@ class Guard:
             if "type" not in argument_configuration and argument_hints is not None:
                 argument_configuration["type"] = argument_hints
 
-            if argument_errors := cls._validate_argument(
-                    argument_configuration,
-                    argument,
-                    value,
-                    bound
-            ):
+            if argument_errors := cls._validate_argument(argument_configuration, argument, value, bound):
                 validation_errors[argument] = argument_errors
 
         if validation_errors:
-            raise GuardValidationError(
-                function_name=function_name,
-                errors=validation_errors
-            )
+            raise GuardValidationError(function_name=function_name, errors=validation_errors)
 
 
 def register_default_validators():

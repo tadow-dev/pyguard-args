@@ -8,7 +8,7 @@ class Validator(ABC):
     """
     Validator base class
     Create your own validator by subclassing this class and implementing the validate method
-    
+
     Args:
         name (str): Name of the validator
         expected (Any): Expected value
@@ -16,15 +16,14 @@ class Validator(ABC):
 
     def __init__(self, **kwargs):
         self.name = kwargs.get("name")
-        self.expected = kwargs.get('expected')
+        self.expected = kwargs.get("expected")
 
     @abstractmethod
     def validate(self, value: Any):
-        raise NotImplementedError('Validator must implement this method')
+        raise NotImplementedError("Validator must implement this method")
 
 
 class GreaterThan(Validator):
-
     def validate(self, value: Any):
         try:
             if value <= self.expected:
@@ -65,7 +64,6 @@ class LessThanOrEqual(Validator):
 
 
 class ChoicesValidator(Validator):
-
     def validate(self, value: Any):
         if isinstance(self.expected, type) and issubclass(self.expected, Enum):
             if not isinstance(value, self.expected):
@@ -102,7 +100,7 @@ class RequiredKeyValidator(Validator):
 
 class SchemaValidator(Validator):
     """
-        TODO Add support for Pydantic
+    TODO Add support for Pydantic
     """
 
     def validate(self, value: dict):
@@ -151,7 +149,7 @@ class RegexValidator(Validator):
 class EmailValidator(Validator):
     def validate(self, value: Any):
         # Email regex pattern (basic but covers most common cases)
-        email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        email_pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
 
         try:
             str_value = str(value)
@@ -165,7 +163,7 @@ class EmailValidator(Validator):
 class URLValidator(Validator):
     def validate(self, value: Any):
         # URL regex pattern (supports http, https, ftp)
-        url_pattern = r'^(https?|ftp)://[^\s/$.?#].[^\s]*$'
+        url_pattern = r"^(https?|ftp)://[^\s/$.?#].[^\s]*$"
 
         try:
             str_value = str(value)
