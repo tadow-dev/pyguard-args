@@ -13,8 +13,8 @@ Tests cover:
 """
 
 import pytest
-from pyguard import guard, GuardValidationError
 
+from pyguard import GuardValidationError, guard
 
 # ============================================================================
 # Empty String Tests

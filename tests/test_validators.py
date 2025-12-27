@@ -1,5 +1,6 @@
 import pytest
-from pyguard import guard, GuardValidationError
+
+from pyguard import GuardValidationError, guard
 
 
 def test_gte_validator():
@@ -11,7 +12,7 @@ def test_gte_validator():
 
     assert register_user(18) == "Success"
 
-    with pytest.raises(GuardValidationError) as exc:
+    with pytest.raises(GuardValidationError):
         register_user(age=13)
 
     # TODO Add checks in error msg
@@ -24,7 +25,7 @@ def test_gt_validator():
 
     assert register_user(20) == "Success"
 
-    with pytest.raises(GuardValidationError) as exc:
+    with pytest.raises(GuardValidationError):
         register_user(age=18)
 
 
@@ -35,7 +36,7 @@ def test_choices_validator():
 
     assert display_currency(currency="USD") == "Success"
 
-    with pytest.raises(GuardValidationError) as exc:
+    with pytest.raises(GuardValidationError):
         display_currency(currency="PLN")
 
 
@@ -52,7 +53,7 @@ def test_choices_enum_validator():
 
     assert display_currency(currency=Currency.USD) == "Success"
 
-    with pytest.raises(GuardValidationError) as exc:
+    with pytest.raises(GuardValidationError):
         display_currency(currency="PLN")
 
 
@@ -63,7 +64,7 @@ def test_type_validator_default():
 
     assert test(x=1) == "Success"
 
-    with pytest.raises(GuardValidationError) as exc:
+    with pytest.raises(GuardValidationError):
         test("string")
 
 
@@ -73,8 +74,8 @@ def test_type_validator():
         return "Success"
 
     assert test_func(x=1) == "Success"
-
-    with pytest.raises(GuardValidationError) as exc:
+    
+    with pytest.raises(GuardValidationError):
         test_func("string")
 
 
@@ -83,7 +84,7 @@ def test_required_validator_default():
     def test_func(x: int):
         return "Success"
 
-    with pytest.raises(GuardValidationError) as exc:
+    with pytest.raises(GuardValidationError):
         test_func(None)
 
 
@@ -92,7 +93,7 @@ def test_required_validator():
     def test(x):
         return "Success"
 
-    with pytest.raises(GuardValidationError) as exc:
+    with pytest.raises(GuardValidationError):
         test(None)
 
 
@@ -103,7 +104,7 @@ def test_required_key_validator():
 
     assert test_func(d={"id": 1, "name": "User"}) == "Success"
 
-    with pytest.raises(GuardValidationError) as exc:
+    with pytest.raises(GuardValidationError):
         test_func({"id": 1})
 
 
@@ -116,7 +117,7 @@ def test_schema_validator():
         x={"x": "test", "y": 1}
     ) == "Success"
 
-    with pytest.raises(GuardValidationError) as exc:
+    with pytest.raises(GuardValidationError):
         test_func(x={"x": "test", "y": "1"})
 
 
@@ -127,7 +128,7 @@ def test_length_string_validator():
 
     assert register_username("example") == "Success"
 
-    with pytest.raises(GuardValidationError) as exc:
+    with pytest.raises(GuardValidationError):
         register_username("exampleexampleexample")
 
 
@@ -138,7 +139,7 @@ def test_length_list_validator():
 
     assert register_choices(["a", "b"]) == "Success"
 
-    with pytest.raises(GuardValidationError) as exc:
+    with pytest.raises(GuardValidationError):
         assert register_choices([])
 
 
@@ -160,7 +161,7 @@ def test_email_validator():
 
     assert send_message("test@test.com") == "Success"
 
-    with pytest.raises(GuardValidationError) as exc:
+    with pytest.raises(GuardValidationError):
         send_message("test")
 
 
@@ -171,7 +172,7 @@ def test_url_validator():
 
     assert fetch_url("https://www.test.com") == "Success"
 
-    with pytest.raises(GuardValidationError) as exc:
+    with pytest.raises(GuardValidationError):
         fetch_url("test")
 
 

@@ -2,10 +2,9 @@ from collections import defaultdict
 from inspect import BoundArguments
 from typing import Any
 
+from pyguard import validators
 from pyguard.exceptions import GuardConfigurationException, GuardValidationError
 from pyguard.utils import is_hint_optional
-
-from pyguard import validators
 
 Validator = validators.Validator
 
@@ -30,10 +29,19 @@ class Guard:
 
     @classmethod
     def get_validator(cls, keyword: str) -> type["Validator"] | None:
-        return cls.__registered_validators__.get(keyword, None)
+        validator = cls.__registered_validators__.get(keyword, None)
+        if not validator:
+            raise GuardConfigurationException(f"Validator {keyword} is not registered")
+        return validator
 
     @classmethod
-    def _validate_argument(cls, configuration, argument, value, bound):
+    def _validate_argument(
+        cls,
+        configuration: dict[str, Any],
+        argument: str,
+        value: Any,
+        bound: BoundArguments,
+    ) -> list[str]:
         errors = []
 
         for rule_name, expected in configuration.items():
@@ -89,6 +97,9 @@ class Guard:
 
 
 def register_default_validators():
+    """
+    Register default validators
+    """
     Guard.register_validator("lt")(validators.LessThan)
     Guard.register_validator("lte")(validators.LessThanOrEqual)
     Guard.register_validator("gt")(validators.GreaterThan)

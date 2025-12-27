@@ -5,7 +5,7 @@ class GuardValidationError(Exception):
             error_details.append(f"  - {arg_name}:")
             for error in error_list:
                 error_details.append(f"    • {error}")
-        
+
         self.errors = errors
         self.function_name = function_name
         message = f"Validation failed for {function_name}:\n" + "\n".join(error_details)

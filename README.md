@@ -367,8 +367,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 See [CHANGELOG.md](CHANGELOG.md) for version history.
 
-<!-- HUMAN INPUT NEEDED: Create CHANGELOG.md -->
-
 ---
 
 **Made with ❤️ by Mateusz Jasinski & Tadow Dev**

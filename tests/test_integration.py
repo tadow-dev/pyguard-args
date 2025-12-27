@@ -10,10 +10,11 @@ Tests cover:
 - Custom validators
 """
 
-import pytest
-from pyguard import Guard, guard, GuardValidationError, Validator
 from typing import Any
 
+import pytest
+
+from pyguard import Guard, GuardValidationError, Validator, guard
 
 # ============================================================================
 # Complex Real-World Scenarios

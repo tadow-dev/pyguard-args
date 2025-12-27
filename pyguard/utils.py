@@ -1,7 +1,10 @@
-from typing import get_origin, get_args, Union, Any
+from typing import Any, Union, get_args, get_origin
 
 
-def is_hint_optional(annotation):
+def is_hint_optional(annotation: Any) -> bool:
+    """
+    Check if a type hint is optional
+    """
     origin = get_origin(annotation)
     args = get_args(annotation)
     return origin is Union and type(None) in args
