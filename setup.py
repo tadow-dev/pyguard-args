@@ -12,7 +12,7 @@ setup(
     description="A Python library for validating function arguments using decorators",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/py-arg-guard",  # TODO Add proper github link
+    url="https://github.com/tadow-dev/pyguard",
     license="MIT",
     classifiers=[
         "Development Status :: 3 - Alpha",

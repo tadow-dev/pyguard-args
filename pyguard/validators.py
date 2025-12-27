@@ -8,7 +8,7 @@ from typing import Any
 class Validator(ABC):
 
     def __init__(self, **kwargs):
-        self.name = kwargs.get("name")  # TODO Finish migration
+        self.name = kwargs.get("name")
         self.expected = kwargs.get('expected')
 
     def validate(self, value: Any):
@@ -59,9 +59,10 @@ class LessThanOrEqual(Validator):
 class ChoicesValidator(Validator):
 
     def validate(self, value: Any):
-        if isinstance(self.expected, type) and isinstance(self.expected, Enum):
+        if isinstance(self.expected, type) and issubclass(self.expected, Enum):
             if not isinstance(value, self.expected):
                 return f"{self.name} {value} must be in {self.expected}"
+            return None  # Valid enum instance
         if value not in self.expected:
             return f"{self.name} must be in {self.expected}"
         return None
