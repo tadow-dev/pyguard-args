@@ -1,6 +1,6 @@
 from collections import defaultdict
 from inspect import BoundArguments
-from typing import Any
+from typing import Any, Optional
 
 from pyguard import validators
 from pyguard.exceptions import GuardConfigurationException, GuardValidationError
@@ -27,7 +27,7 @@ class Guard:
         return decorator
 
     @classmethod
-    def get_validator(cls, keyword: str) -> type["Validator"] | None:
+    def get_validator(cls, keyword: str) -> Optional[type["Validator"]]:
         validator = cls.__registered_validators__.get(keyword, None)
         if not validator:
             raise GuardConfigurationException(f"Validator {keyword} is not registered")
@@ -45,8 +45,6 @@ class Guard:
 
         for rule_name, expected in configuration.items():
             validator_class = Guard.get_validator(rule_name)
-            if validator_class is None:
-                continue
 
             validator = validator_class(name=argument, expected=expected, bound=bound)
 
