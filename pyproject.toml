@@ -68,7 +68,9 @@ lint.select = [
 ]
 lint.ignore = [
     "W293",  # blank line contains whitespace
-    "E501",  # line too long (handled by formatter)
+    "E501",  # line too long (handled by formatter),
+    "UP036",  # Remove outdated version block
+    "UP045",  # Use `X | None` for type annotations
 ]
 
 [tool.ruff.format]
