@@ -337,12 +337,12 @@ def test_multiple_validators_on_single_argument():
     # Below minimum
     with pytest.raises(GuardValidationError) as exc_info:
         register_employee(17)
-    assert "at least 18" in str(exc_info.value)
+    assert "greater than or equal 18" in str(exc_info.value)
 
     # Above maximum
     with pytest.raises(GuardValidationError) as exc_info:
         register_employee(66)
-    assert "less than 65" in str(exc_info.value)
+    assert "less than or equal 65" in str(exc_info.value)
 
 
 def test_multiple_validators_string():
