@@ -1,11 +1,10 @@
 from collections import defaultdict
 from inspect import BoundArguments
-from typing import Any
-
-from pyguard.exceptions import GuardConfigurationException, GuardValidationError
-from pyguard.utils import is_hint_optional
+from typing import Any, Optional
 
 from pyguard import validators
+from pyguard.exceptions import GuardConfigurationException, GuardValidationError
+from pyguard.utils import is_hint_optional
 
 Validator = validators.Validator
 
@@ -20,32 +19,34 @@ class Guard:
                 cls.__registered_validators__ = {}
 
             if keyword in cls.__registered_validators__:
-                raise GuardConfigurationException(
-                    f"{keyword} is already registered"
-                )
+                raise GuardConfigurationException(f"{keyword} is already registered")
 
             cls.__registered_validators__[keyword] = validator
             return validator
+
         return decorator
 
     @classmethod
-    def get_validator(cls, keyword: str) -> type["Validator"] | None:
-        return cls.__registered_validators__.get(keyword, None)
+    def get_validator(cls, keyword: str) -> Optional[type["Validator"]]:
+        validator = cls.__registered_validators__.get(keyword, None)
+        if not validator:
+            raise GuardConfigurationException(f"Validator {keyword} is not registered")
+        return validator
 
     @classmethod
-    def _validate_argument(cls, configuration, argument, value, bound):
+    def _validate_argument(
+        cls,
+        configuration: dict[str, Any],
+        argument: str,
+        value: Any,
+        bound: BoundArguments,
+    ) -> list[str]:
         errors = []
 
         for rule_name, expected in configuration.items():
             validator_class = Guard.get_validator(rule_name)
-            if validator_class is None:
-                continue
 
-            validator = validator_class(
-                name=argument,
-                expected=expected,
-                bound=bound
-            )
+            validator = validator_class(name=argument, expected=expected, bound=bound)
 
             if error := validator.validate(value=value):
                 errors.append(error)
@@ -53,13 +54,8 @@ class Guard:
 
     @classmethod
     def validate_arguments(
-        cls,
-        function_name: str,
-        bound: BoundArguments,
-        hints: dict[str, Any],
-        guard_config: dict[str, Any]
+        cls, function_name: str, bound: BoundArguments, hints: dict[str, Any], guard_config: dict[str, Any]
     ) -> None:
-
         validation_errors = defaultdict(list)
 
         for argument, value in bound.arguments.items():
@@ -73,22 +69,17 @@ class Guard:
             if "type" not in argument_configuration and argument_hints is not None:
                 argument_configuration["type"] = argument_hints
 
-            if argument_errors := cls._validate_argument(
-                    argument_configuration,
-                    argument,
-                    value,
-                    bound
-            ):
+            if argument_errors := cls._validate_argument(argument_configuration, argument, value, bound):
                 validation_errors[argument] = argument_errors
 
         if validation_errors:
-            raise GuardValidationError(
-                function_name=function_name,
-                errors=validation_errors
-            )
+            raise GuardValidationError(function_name=function_name, errors=validation_errors)
 
 
 def register_default_validators():
+    """
+    Register default validators
+    """
     Guard.register_validator("lt")(validators.LessThan)
     Guard.register_validator("lte")(validators.LessThanOrEqual)
     Guard.register_validator("gt")(validators.GreaterThan)

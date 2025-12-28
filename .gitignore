@@ -25,6 +25,8 @@ wheels/
 .coverage
 htmlcov/
 .tox/
+uv.lock
+.ruff_cache/
 
 # Virtual environments
 .venv/

@@ -1,4 +1,4 @@
-# py-arg-guard
+# pyguard-args
 
 <!-- HUMAN INPUT NEEDED: Add badges here once published -->
 <!-- Example badges:
@@ -15,7 +15,6 @@ A lightweight, decorator-based Python library for validating function arguments 
 
 - 🎯 **Simple decorator syntax** - Just add `@guard()` to your functions
 - 🔍 **Type validation** - Automatic type checking from type hints
-- 📏 **Range validation** - Min/max constraints for numbers
 - ✅ **Choice validation** - Restrict values to specific options
 - 📝 **String validation** - Email, URL, regex patterns, and length
 - 📦 **Schema validation** - Validate dictionary structures
@@ -26,7 +25,7 @@ A lightweight, decorator-based Python library for validating function arguments 
 ## 📦 Installation
 
 ```bash
-pip install pyguard
+pip install pyguard-args
 ```
 
 <!-- HUMAN INPUT NEEDED: Verify package name availability on PyPI -->
@@ -345,93 +344,29 @@ update_profile("John")  # OK - email is optional
 update_profile("John", "john@example.com")  # OK
 ```
 
-## ⚡ Performance Considerations
-
-The `@guard` decorator caches function signatures and type hints, so the overhead is minimal. Validation only occurs during function invocation.
-
-<!-- HUMAN INPUT NEEDED: Add benchmarks if available -->
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-<!-- HUMAN INPUT NEEDED: Add contributing guidelines -->
-<!-- Consider creating CONTRIBUTING.md with:
-- Code style guidelines
-- Testing requirements
-- PR process
-- Development setup
--->
-
-### Development Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/YOUR_USERNAME/py-arg-guard.git
-cd py-arg-guard
-
-# Create virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install development dependencies
-pip install -e ".[dev]"
-
-# Run tests
-pytest
-
-# Run tests with coverage
-pytest --cov=pyguard --cov-report=term-missing
-```
-
-<!-- HUMAN INPUT NEEDED: Update GitHub URL above -->
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-<!-- HUMAN INPUT NEEDED: Create LICENSE file -->
-
-## 🙏 Acknowledgments
-
-<!-- HUMAN INPUT NEEDED: Add any acknowledgments, inspirations, or credits -->
-
 ## 📞 Support
 
-<!-- HUMAN INPUT NEEDED: Add support channels -->
-<!-- Examples:
-- **Issues**: [GitHub Issues](https://github.com/YOUR_USERNAME/py-arg-guard/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/YOUR_USERNAME/py-arg-guard/discussions)
-- **Email**: your-email@example.com
--->
+- **Issues**: [GitHub Issues](https://github.com/tadow-dev/pyguard/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/tadow-dev/pyguard/discussions)
 
 ## 🗺️ Roadmap
 
-<!-- HUMAN INPUT NEEDED: Define roadmap priorities -->
-<!-- Suggestions from tasks.md:
 - [ ] Pydantic integration for schema validation
 - [ ] Async function support
 - [ ] Additional string validators (startswith, endswith, contains)
 - [ ] Collection validators (all_items, any_item, unique)
-- [ ] Conditional validation
 - [ ] Custom error messages
-- [ ] Validation groups
--->
+- [ ] Add support for Python 3.9
+
 
 ## 📊 Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for version history.
 
-<!-- HUMAN INPUT NEEDED: Create CHANGELOG.md -->
-
 ---
 
-**Made with ❤️ by [Your Name]** <!-- HUMAN INPUT NEEDED: Add your name/organization -->
-
-<!-- HUMAN INPUT NEEDED: Consider adding:
-- Link to documentation site (Read the Docs, etc.)
-- Link to PyPI package page
-- Social media links
-- Star/fork badges
-- Download statistics
--->
+**Made with ❤️ by Mateusz Jasinski & Tadow Dev**
