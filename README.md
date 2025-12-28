@@ -1,4 +1,4 @@
-# pyguard
+# pyguard-args
 
 <!-- HUMAN INPUT NEEDED: Add badges here once published -->
 <!-- Example badges:
@@ -25,7 +25,7 @@ A lightweight, decorator-based Python library for validating function arguments 
 ## 📦 Installation
 
 ```bash
-pip install pyguard
+pip install pyguard-args
 ```
 
 <!-- HUMAN INPUT NEEDED: Verify package name availability on PyPI -->
@@ -352,7 +352,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Issues**: [GitHub Issues](https://github.com/tadow-dev/pyguard/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/tadow-dev/pyguard/discussions)
-- **Email**: your-email@example.com
 
 ## 🗺️ Roadmap
 
@@ -361,6 +360,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Additional string validators (startswith, endswith, contains)
 - [ ] Collection validators (all_items, any_item, unique)
 - [ ] Custom error messages
+- [ ] Add support for Python 3.9
 
 
 ## 📊 Changelog
