@@ -30,6 +30,7 @@ def guard(**validation_rules):
         hints = get_type_hints(f)
 
         if inspect.iscoroutinefunction(f):
+
             @functools.wraps(f)
             async def wrapper(*args, **kwargs):
                 bound = function_signature.bind(*args, **kwargs)
@@ -43,6 +44,7 @@ def guard(**validation_rules):
                 )
                 return await f(*args, **kwargs)
         else:
+
             @functools.wraps(f)
             def wrapper(*args, **kwargs):
                 bound = function_signature.bind(*args, **kwargs)
@@ -55,6 +57,7 @@ def guard(**validation_rules):
                     validation_rules,
                 )
                 return f(*args, **kwargs)
+
         return wrapper
 
     return decorator
