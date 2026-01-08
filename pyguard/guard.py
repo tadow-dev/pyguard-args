@@ -93,6 +93,13 @@ def register_default_validators():
     Guard.register_validator("regex")(validators.RegexValidator)
     Guard.register_validator("email")(validators.EmailValidator)
     Guard.register_validator("url")(validators.URLValidator)
+    Guard.register_validator("startswith")(validators.StartsWithValidator)
+    Guard.register_validator("endswith")(validators.EndsWithValidator)
+    Guard.register_validator("contains")(validators.ContainsValidator)
+    Guard.register_validator("ip")(validators.IPAddressValidator)
+    Guard.register_validator("uuid")(validators.UUIDValidator)
+    Guard.register_validator("lowercase")(validators.LowercaseValidator)
+    Guard.register_validator("uppercase")(validators.UppercaseValidator)
 
 
 register_default_validators()

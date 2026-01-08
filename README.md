@@ -212,6 +212,63 @@ def update_contact(phone: str, zip_code: str):
     pass
 ```
 
+#### StartsWith Validation
+
+```python
+@guard(
+    username={"startswith": "admin"},
+    code={"startswith": "ABC"}
+)
+def create_account(username: str, code: str):
+    pass
+```
+
+#### EndsWith Validation
+
+```python
+@guard(
+    filename={"endswith": ".txt"},
+    extension={"endswith": ".py"}
+)
+def process_file(filename: str, extension: str):
+    pass
+```
+
+#### Contains Validation
+
+```python
+@guard(
+    name={"contains": "John"},
+    code={"contains": "123"}
+)
+def find_user(name: str, code: str):
+    pass
+```
+
+### IP Address Validation
+
+```python
+@guard(
+    ip={"ip_address": True},
+    ipv4={"ip_address": "ipv4"},
+    ipv6={"ip_address": "ipv6"}
+)
+def process_ip(ip: str, ipv4: str, ipv6: str):
+    pass
+```
+
+### UUID Validation
+
+```python
+@guard(
+    uuid={"uuid": True},
+    uuid4={"uuid": "uuid4"},
+    uuid5={"uuid": "uuid5"}
+)
+def process_uuid(uuid: str, uuid4: str, uuid5: str):
+    pass
+```
+
 ### Dictionary Validators
 
 #### Required Keys
