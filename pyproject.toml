@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyguard-args"
-version = "0.1.1"
+version = "0.2.0"
 authors = [{name = "Mateusz Jasinski", email = "mateusz@jasinski.software"}]
 description = "A Python library for validating function arguments using decorators"
 readme = "README.md"

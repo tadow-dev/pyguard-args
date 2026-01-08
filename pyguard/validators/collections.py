@@ -27,7 +27,7 @@ class RequiredKeyValidator(Validator):
 
 class SchemaValidator(Validator):
     """
-    TODO Add support for Pydantic
+    Schema validator for dictionary structures
     """
 
     def validate(self, value: dict):
