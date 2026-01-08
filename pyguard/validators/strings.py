@@ -34,13 +34,16 @@ class ContainsValidator(Validator):
 
 
 class RegexValidator(Validator):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._pattern = re.compile(self.expected)
+
     def validate(self, value: Any):
         if not isinstance(value, str):
             return f"{self.name} must be a string, got {type(value).__name__}"
 
         try:
-            # Compile and match the pattern
-            if not re.match(self.expected, value):
+            if not self._pattern.match(value):
                 return f"{self.name} must match pattern '{self.expected}', got {value}"
         except re.error as e:
             return f"{self.name} has invalid regex pattern: {e}"
@@ -92,7 +95,7 @@ class UUIDValidator(Validator):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._version = self.SUPPORTED_VERSIONS.get(self.expected, "uuid4")
+        self._version = self.SUPPORTED_VERSIONS.get(self.expected, 4)
 
     def validate(self, value: Any):
         if not isinstance(value, str):
@@ -101,7 +104,7 @@ class UUIDValidator(Validator):
             return f"{self.name} must be a string, got {type(value).__name__}"
 
         try:
-            uuid.UUID(value, version=self.expected)
+            uuid.UUID(value, version=self._version)
             return None
         except ValueError:
             return f"{self.name} must be a valid UUID, got {value}"

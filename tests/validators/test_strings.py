@@ -16,6 +16,9 @@ def test_regex_validator():
     with pytest.raises(GuardValidationError):
         validate_code("abc-def")
 
+    with pytest.raises(GuardValidationError):
+        validate_code(123)
+
 
 def test_email_validator():
     @guard(email={"email": True})
@@ -26,6 +29,9 @@ def test_email_validator():
 
     with pytest.raises(GuardValidationError):
         send_message("test")
+
+    with pytest.raises(GuardValidationError):
+        send_message(123)
 
 
 def test_url_validator():
@@ -38,6 +44,9 @@ def test_url_validator():
     with pytest.raises(GuardValidationError):
         fetch_url("test")
 
+    with pytest.raises(GuardValidationError):
+        fetch_url(123)
+
 
 def test_startswith_validator():
     @guard(name={"startswith": "Hello"})
@@ -48,6 +57,9 @@ def test_startswith_validator():
 
     with pytest.raises(GuardValidationError):
         greet("World Hello")
+
+    with pytest.raises(GuardValidationError):
+        greet(123)
 
 
 def test_endswith_validator():
@@ -60,6 +72,9 @@ def test_endswith_validator():
     with pytest.raises(GuardValidationError):
         greet("World Hello")
 
+    with pytest.raises(GuardValidationError):
+        greet(123)
+
 
 def test_contains_validator():
     @guard(name={"contains": "World"})
@@ -71,6 +86,9 @@ def test_contains_validator():
     with pytest.raises(GuardValidationError):
         greet("Hello test")
 
+    with pytest.raises(GuardValidationError):
+        greet(123)
+
 
 def test_uuid_passed():
     @guard(uuid={"uuid": True})
@@ -81,7 +99,7 @@ def test_uuid_passed():
 
 
 def test_uuid_validator_version4():
-    @guard(uuid={"uuid": 4})
+    @guard(uuid={"uuid": "uuid4"})
     def fetch_uuid(uuid: str):
         return "Success"
 
@@ -95,7 +113,7 @@ def test_uuid_validator_version4():
 
 
 def test_uuid_validator_version5():
-    @guard(uuid={"uuid": 5})
+    @guard(uuid={"uuid": "uuid5"})
     def fetch_uuid(uuid: str):
         return "Success"
 
