@@ -43,13 +43,26 @@ class Guard:
     ) -> list[str]:
         errors = []
 
-        for rule_name, expected in configuration.items():
+        for rule_name, expected_config in configuration.items():
             validator_class = Guard.get_validator(rule_name)
 
-            validator = validator_class(name=argument, expected=expected, bound=bound)
+            expected_value = expected_config
+            custom_error_message = None
+
+            if isinstance(expected_config, tuple):
+                # Handle tuple expected values for LengthValidator
+                if validator_class == validators.LengthValidator:
+                    if isinstance(expected_config[0], tuple):
+                        expected_value, custom_error_message = expected_config
+                    else:
+                        expected_value = expected_config
+                else:
+                    expected_value, custom_error_message = expected_config
+
+            validator = validator_class(name=argument, expected=expected_value, bound=bound)
 
             if error := validator.validate(value=value):
-                errors.append(error)
+                errors.append(custom_error_message or error)
         return errors
 
     @classmethod

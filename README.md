@@ -106,6 +106,21 @@ await register_user(25, "john@example.com", "john_doe")
 await register_user(15, "john@example.com", "john_doe")
 ```
 
+## Custom error messages
+
+```python
+from pyguard import guard
+
+@guard(
+    age={"gte": (18, "Age must be at least 18"), "lte": (120, "Age must be at most 120")},
+    email={"email": (True, "Email must be a valid email address")},
+    username={"length": (3, 20, "Username must be between 3 and 20 characters long"), "regex": (r"^[a-zA-Z0-9_]+$", "Username must match pattern ^[a-zA-Z0-9_]+$")}
+)
+def register_user(age: int, email: str, username: str):
+    return f"User {username} registered successfully!"
+```
+
+
 ## 📖 Available Validators
 
 ### Comparison Validators
@@ -182,6 +197,17 @@ def update_status(status: Status):
     code={"length": (None, 10)}       # No min, max 10
 )
 def create_account(username: str, password: str, code: str):
+    pass
+```
+
+#### Uppercase and lowercase validation
+
+```python
+@guard(
+    name={"uppercase": True},
+    code={"lowercase": True}
+)
+def create_account(name: str, code: str):
     pass
 ```
 
@@ -462,8 +488,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🗺️ Roadmap
 
 - [ ] Pydantic integration for schema validation
-- [ ] Async function support
-- [ ] Additional string validators (startswith, endswith, contains)
 - [ ] Collection validators (all_items, any_item, unique)
 - [ ] Custom error messages
 - [ ] Add support for Python 3.9
