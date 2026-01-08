@@ -29,19 +29,32 @@ def guard(**validation_rules):
         function_signature = inspect.signature(f)
         hints = get_type_hints(f)
 
-        @functools.wraps(f)
-        def wrapper(*args, **kwargs):
-            bound = function_signature.bind(*args, **kwargs)
-            bound.apply_defaults()
+        if inspect.iscoroutinefunction(f):
+            @functools.wraps(f)
+            async def wrapper(*args, **kwargs):
+                bound = function_signature.bind(*args, **kwargs)
+                bound.apply_defaults()
 
-            Guard.validate_arguments(
-                f.__name__,
-                bound,
-                hints,
-                validation_rules,
-            )
-            return f(*args, **kwargs)
+                Guard.validate_arguments(
+                    f.__name__,
+                    bound,
+                    hints,
+                    validation_rules,
+                )
+                return await f(*args, **kwargs)
+        else:
+            @functools.wraps(f)
+            def wrapper(*args, **kwargs):
+                bound = function_signature.bind(*args, **kwargs)
+                bound.apply_defaults()
 
+                Guard.validate_arguments(
+                    f.__name__,
+                    bound,
+                    hints,
+                    validation_rules,
+                )
+                return f(*args, **kwargs)
         return wrapper
 
     return decorator

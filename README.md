@@ -32,9 +32,38 @@ pip install pyguard-args
 <!-- The package name 'pyguard' might be taken. Check and update if needed -->
 
 **Requirements:**
-- Python 3.9 or higher
+- Python 3.10 or higher
 
 ## 🚀 Quick Start
+
+**Without guard** - Manual validation requires verbose boilerplate:
+```python
+import re
+
+def register_user(age: int, email: str, username: str):
+    # Validate age
+    if age < 18:
+        raise ValueError("age must be at least 18")
+    if age > 120:
+        raise ValueError("age must be at most 120")
+    
+    # Validate email
+    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    if not re.match(email_pattern, email):
+        raise ValueError("email must be a valid email address")
+    
+    # Validate username
+    if len(username) < 3:
+        raise ValueError("username must be at least 3 characters")
+    if len(username) > 20:
+        raise ValueError("username must be at most 20 characters")
+    if not re.match(r"^[a-zA-Z0-9_]+$", username):
+        raise ValueError("username must match pattern ^[a-zA-Z0-9_]+$")
+    
+    return f"User {username} registered successfully!"
+```
+
+**With guard** - Clean, declarative, and maintainable:
 
 ```python
 from pyguard import guard
@@ -55,6 +84,26 @@ register_user(15, "john@example.com", "john_doe")
 
 # Raises GuardValidationError: email must be a valid email address
 register_user(25, "invalid-email", "john_doe")
+```
+
+## Async support 
+
+```python
+from pyguard import guard
+
+@guard(
+    age={"gte": 18, "lte": 120},
+    email={"email": True},
+    username={"length": (3, 20), "regex": r"^[a-zA-Z0-9_]+$"}
+)
+async def register_user(age: int, email: str, username: str):
+    return f"User {username} registered successfully!"
+
+# Valid call
+await register_user(25, "john@example.com", "john_doe")
+
+# Raises GuardValidationError: age must be at least 18
+await register_user(15, "john@example.com", "john_doe")
 ```
 
 ## 📖 Available Validators
