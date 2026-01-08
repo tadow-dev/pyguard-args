@@ -1,13 +1,5 @@
 # pyguard-args
 
-<!-- HUMAN INPUT NEEDED: Add badges here once published -->
-<!-- Example badges:
-[![PyPI version](https://badge.fury.io/py/pyguard.svg)](https://badge.fury.io/py/pyguard)
-[![Python Versions](https://img.shields.io/pypi/pyversions/pyguard.svg)](https://pypi.org/project/pyguard/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://github.com/YOUR_USERNAME/py-arg-guard/workflows/Tests/badge.svg)](https://github.com/YOUR_USERNAME/py-arg-guard/actions)
-[![Coverage](https://codecov.io/gh/YOUR_USERNAME/py-arg-guard/branch/main/graph/badge.svg)](https://codecov.io/gh/YOUR_USERNAME/py-arg-guard)
--->
 
 A lightweight, decorator-based Python library for validating function arguments with an intuitive and expressive syntax.
 
@@ -28,8 +20,6 @@ A lightweight, decorator-based Python library for validating function arguments 
 pip install pyguard-args
 ```
 
-<!-- HUMAN INPUT NEEDED: Verify package name availability on PyPI -->
-<!-- The package name 'pyguard' might be taken. Check and update if needed -->
 
 **Requirements:**
 - Python 3.10 or higher
@@ -489,9 +479,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [ ] Pydantic integration for schema validation
 - [ ] Collection validators (all_items, any_item, unique)
-- [ ] Custom error messages
 - [ ] Add support for Python 3.9
-
+- [ ] Performance optimization
+- [ ] Cross argument validation
+- [ ] File validators
+- [ ] Date/Time validators
 
 ## 📊 Changelog
 
