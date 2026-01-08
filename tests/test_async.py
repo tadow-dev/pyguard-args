@@ -6,6 +6,7 @@ from pyguard import GuardValidationError, guard
 @pytest.mark.asyncio
 async def test_async_basic_validation():
     """Test basic async function with validation"""
+
     @guard(age={"gte": 18})
     async def register_user(age: int):
         return "Success"
@@ -23,10 +24,9 @@ async def test_async_basic_validation():
 @pytest.mark.asyncio
 async def test_async_multiple_validators():
     """Test async function with multiple validators"""
+
     @guard(
-        age={"gte": 18, "lte": 120},
-        email={"email": True},
-        username={"length": (3, 20), "regex": r"^[a-zA-Z0-9_]+$"}
+        age={"gte": 18, "lte": 120}, email={"email": True}, username={"length": (3, 20), "regex": r"^[a-zA-Z0-9_]+$"}
     )
     async def register_user(age: int, email: str, username: str):
         return f"User {username} registered successfully!"
@@ -55,6 +55,7 @@ async def test_async_multiple_validators():
 @pytest.mark.asyncio
 async def test_async_type_validation():
     """Test async function with type validation"""
+
     @guard()
     async def calculate(x: int, y: float) -> float:
         return x * y
@@ -69,6 +70,7 @@ async def test_async_type_validation():
 @pytest.mark.asyncio
 async def test_async_choices_validator():
     """Test async function with choices validator"""
+
     @guard(currency={"choices": ["USD", "EUR", "GBP"]})
     async def process_payment(amount: float, currency: str):
         return f"Processing {amount} {currency}"
@@ -83,15 +85,8 @@ async def test_async_choices_validator():
 @pytest.mark.asyncio
 async def test_async_schema_validator():
     """Test async function with schema validator"""
-    @guard(
-        user={
-            "schema": {
-                "name": str,
-                "age": int,
-                "email": str
-            }
-        }
-    )
+
+    @guard(user={"schema": {"name": str, "age": int, "email": str}})
     async def create_user(user: dict):
         return f"Created user {user['name']}"
 
@@ -110,6 +105,7 @@ async def test_async_schema_validator():
 @pytest.mark.asyncio
 async def test_async_required_validator():
     """Test async function with required validator"""
+
     @guard(user_id={"required": True})
     async def get_user(user_id):
         return f"User {user_id}"
@@ -124,11 +120,8 @@ async def test_async_required_validator():
 @pytest.mark.asyncio
 async def test_async_length_validator():
     """Test async function with length validator"""
-    @guard(
-        username={"length": (3, 20)},
-        password={"length": (8, None)},
-        code={"length": (None, 10)}
-    )
+
+    @guard(username={"length": (3, 20)}, password={"length": (8, None)}, code={"length": (None, 10)})
     async def create_account(username: str, password: str, code: str):
         return "Account created"
 
@@ -155,10 +148,8 @@ async def test_async_length_validator():
 @pytest.mark.asyncio
 async def test_async_comparison_validators():
     """Test async function with comparison validators"""
-    @guard(
-        age={"gte": 13, "lte": 120},
-        score={"gt": 0, "lt": 100}
-    )
+
+    @guard(age={"gte": 13, "lte": 120}, score={"gt": 0, "lt": 100})
     async def process_data(age: int, score: float):
         return f"Age: {age}, Score: {score}"
 
@@ -185,6 +176,7 @@ async def test_async_comparison_validators():
 @pytest.mark.asyncio
 async def test_async_url_validator():
     """Test async function with URL validator"""
+
     @guard(website={"url": True})
     async def fetch_data(website: str):
         return f"Fetching from {website}"
@@ -199,10 +191,8 @@ async def test_async_url_validator():
 @pytest.mark.asyncio
 async def test_async_regex_validator():
     """Test async function with regex validator"""
-    @guard(
-        phone={"regex": r"^\d{3}-\d{3}-\d{4}$"},
-        zip_code={"regex": r"^\d{5}(-\d{4})?$"}
-    )
+
+    @guard(phone={"regex": r"^\d{3}-\d{3}-\d{4}$"}, zip_code={"regex": r"^\d{5}(-\d{4})?$"})
     async def update_contact(phone: str, zip_code: str):
         return "Contact updated"
 
@@ -224,6 +214,7 @@ async def test_async_regex_validator():
 @pytest.mark.asyncio
 async def test_async_required_keys_validator():
     """Test async function with required keys validator"""
+
     @guard(config={"keys": ["host", "port", "database"]})
     async def connect_db(config: dict):
         return f"Connected to {config['database']}"
@@ -239,10 +230,8 @@ async def test_async_required_keys_validator():
 @pytest.mark.asyncio
 async def test_async_with_defaults():
     """Test async function with default parameters"""
-    @guard(
-        page={"gte": 1, "type": int},
-        per_page={"gte": 1, "lte": 100, "type": int}
-    )
+
+    @guard(page={"gte": 1, "type": int}, per_page={"gte": 1, "lte": 100, "type": int})
     async def get_items(page: int = 1, per_page: int = 20):
         return {"page": page, "per_page": per_page}
 
@@ -266,6 +255,7 @@ async def test_async_with_defaults():
 @pytest.mark.asyncio
 async def test_async_error_messages():
     """Test that async functions produce proper error messages"""
+
     @guard(age={"gte": 18}, email={"email": True})
     async def register(age: int, email: str):
         return "Success"
