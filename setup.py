@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="pyguard-args",
-    version="0.1.1",
+    version="0.2.0",
     packages=find_packages(),
     author="Mateusz Jasinski",
     author_email="mateusz@jasinski.software",

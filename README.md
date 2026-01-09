@@ -1,13 +1,5 @@
 # pyguard-args
 
-<!-- HUMAN INPUT NEEDED: Add badges here once published -->
-<!-- Example badges:
-[![PyPI version](https://badge.fury.io/py/pyguard.svg)](https://badge.fury.io/py/pyguard)
-[![Python Versions](https://img.shields.io/pypi/pyversions/pyguard.svg)](https://pypi.org/project/pyguard/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://github.com/YOUR_USERNAME/py-arg-guard/workflows/Tests/badge.svg)](https://github.com/YOUR_USERNAME/py-arg-guard/actions)
-[![Coverage](https://codecov.io/gh/YOUR_USERNAME/py-arg-guard/branch/main/graph/badge.svg)](https://codecov.io/gh/YOUR_USERNAME/py-arg-guard)
--->
 
 A lightweight, decorator-based Python library for validating function arguments with an intuitive and expressive syntax.
 
@@ -28,13 +20,40 @@ A lightweight, decorator-based Python library for validating function arguments 
 pip install pyguard-args
 ```
 
-<!-- HUMAN INPUT NEEDED: Verify package name availability on PyPI -->
-<!-- The package name 'pyguard' might be taken. Check and update if needed -->
 
 **Requirements:**
-- Python 3.9 or higher
+- Python 3.10 or higher
 
 ## 🚀 Quick Start
+
+**Without guard** - Manual validation requires verbose boilerplate:
+```python
+import re
+
+def register_user(age: int, email: str, username: str):
+    # Validate age
+    if age < 18:
+        raise ValueError("age must be at least 18")
+    if age > 120:
+        raise ValueError("age must be at most 120")
+    
+    # Validate email
+    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    if not re.match(email_pattern, email):
+        raise ValueError("email must be a valid email address")
+    
+    # Validate username
+    if len(username) < 3:
+        raise ValueError("username must be at least 3 characters")
+    if len(username) > 20:
+        raise ValueError("username must be at most 20 characters")
+    if not re.match(r"^[a-zA-Z0-9_]+$", username):
+        raise ValueError("username must match pattern ^[a-zA-Z0-9_]+$")
+    
+    return f"User {username} registered successfully!"
+```
+
+**With guard** - Clean, declarative, and maintainable:
 
 ```python
 from pyguard import guard
@@ -56,6 +75,41 @@ register_user(15, "john@example.com", "john_doe")
 # Raises GuardValidationError: email must be a valid email address
 register_user(25, "invalid-email", "john_doe")
 ```
+
+## Async support 
+
+```python
+from pyguard import guard
+
+@guard(
+    age={"gte": 18, "lte": 120},
+    email={"email": True},
+    username={"length": (3, 20), "regex": r"^[a-zA-Z0-9_]+$"}
+)
+async def register_user(age: int, email: str, username: str):
+    return f"User {username} registered successfully!"
+
+# Valid call
+await register_user(25, "john@example.com", "john_doe")
+
+# Raises GuardValidationError: age must be at least 18
+await register_user(15, "john@example.com", "john_doe")
+```
+
+## Custom error messages
+
+```python
+from pyguard import guard
+
+@guard(
+    age={"gte": (18, "Age must be at least 18"), "lte": (120, "Age must be at most 120")},
+    email={"email": (True, "Email must be a valid email address")},
+    username={"length": (3, 20, "Username must be between 3 and 20 characters long"), "regex": (r"^[a-zA-Z0-9_]+$", "Username must match pattern ^[a-zA-Z0-9_]+$")}
+)
+def register_user(age: int, email: str, username: str):
+    return f"User {username} registered successfully!"
+```
+
 
 ## 📖 Available Validators
 
@@ -136,6 +190,17 @@ def create_account(username: str, password: str, code: str):
     pass
 ```
 
+#### Uppercase and lowercase validation
+
+```python
+@guard(
+    name={"uppercase": True},
+    code={"lowercase": True}
+)
+def create_account(name: str, code: str):
+    pass
+```
+
 #### Email Validation
 
 ```python
@@ -160,6 +225,63 @@ def add_bookmark(website: str):
     zip_code={"regex": r"^\d{5}(-\d{4})?$"}
 )
 def update_contact(phone: str, zip_code: str):
+    pass
+```
+
+#### StartsWith Validation
+
+```python
+@guard(
+    username={"startswith": "admin"},
+    code={"startswith": "ABC"}
+)
+def create_account(username: str, code: str):
+    pass
+```
+
+#### EndsWith Validation
+
+```python
+@guard(
+    filename={"endswith": ".txt"},
+    extension={"endswith": ".py"}
+)
+def process_file(filename: str, extension: str):
+    pass
+```
+
+#### Contains Validation
+
+```python
+@guard(
+    name={"contains": "John"},
+    code={"contains": "123"}
+)
+def find_user(name: str, code: str):
+    pass
+```
+
+### IP Address Validation
+
+```python
+@guard(
+    ip={"ip_address": True},
+    ipv4={"ip_address": "ipv4"},
+    ipv6={"ip_address": "ipv6"}
+)
+def process_ip(ip: str, ipv4: str, ipv6: str):
+    pass
+```
+
+### UUID Validation
+
+```python
+@guard(
+    uuid={"uuid": True},
+    uuid4={"uuid": "uuid4"},
+    uuid5={"uuid": "uuid5"}
+)
+def process_uuid(uuid: str, uuid4: str, uuid5: str):
     pass
 ```
 
@@ -356,12 +478,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🗺️ Roadmap
 
 - [ ] Pydantic integration for schema validation
-- [ ] Async function support
-- [ ] Additional string validators (startswith, endswith, contains)
 - [ ] Collection validators (all_items, any_item, unique)
-- [ ] Custom error messages
 - [ ] Add support for Python 3.9
-
+- [ ] Performance optimization
+- [ ] Cross argument validation
+- [ ] File validators
+- [ ] Date/Time validators
 
 ## 📊 Changelog
 

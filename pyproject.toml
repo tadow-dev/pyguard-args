@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyguard-args"
-version = "0.1.1"
+version = "0.2.0"
 authors = [{name = "Mateusz Jasinski", email = "mateusz@jasinski.software"}]
 description = "A Python library for validating function arguments using decorators"
 readme = "README.md"
@@ -24,11 +24,13 @@ keywords = ["validation", "decorator", "arguments", "type-checking"]
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
     "ruff>=0.1.0",
 ]
 test = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
 ]
 
 [project.urls]
